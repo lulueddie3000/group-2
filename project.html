@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Group 2: Navigation Bar & Image Slider</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    nav {
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+      background-color: #333;
+      padding: 15px;
+      display: flex;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s, border-bottom 0.3s;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: #f90;
+      border-bottom: 2px solid #f90;
+    }
+
+    #slider {
+      position: relative;
+      max-width: 100%;
+      height: 500px;
+      overflow: hidden;
+    }
+
+    .slide {
+      display: none;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      transition: opacity 1s ease-in-out;
+      opacity: 0;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .active-slide {
+      display: block;
+      opacity: 1;
+    }
+
+    .description {
+      position: absolute;
+      bottom: 20px;
+      left: 30px;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      padding: 10px 15px;
+      border-radius: 5px;
+    }
+
+    .slider-controls {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      padding: 0 20px;
+    }
+
+    .slider-controls button {
+      background: rgba(0, 0, 0, 0.6);
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 18px;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+
+    .slider-controls button:hover {
+      background: rgba(0, 0, 0, 0.8);
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="#home" class="active">Home</a>
+    <a href="#about">About</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <section id="slider">
+    <div class="slide active-slide fade">
+      <img src="https://picsum.photos/id/1015/1200/500" alt="Slide 1">
+      <div class="description">Beautiful Landscape View</div>
+    </div>
+    <div class="slide fade">
+      <img src="https://picsum.photos/id/1020/1200/500" alt="Slide 2">
+      <div class="description">Calm Beach Evening</div>
+    </div>
+    <div class="slide fade">
+      <img src="https://picsum.photos/id/1024/1200/500" alt="Slide 3">
+      <div class="description">Mountain Adventure</div>
+    </div>
+    <div class="slider-controls">
+      <button onclick="changeSlide(-1)">&#10094; Prev</button>
+      <button onclick="changeSlide(1)">Next &#10095;</button>
+    </div>
+  </section>
+
+  <script>
+    let slideIndex = 0;
+    const slides = document.querySelectorAll(".slide");
+    let autoSlideInterval;
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.remove("active-slide");
+      });
+      slides[index].classList.add("active-slide");
+    }
+
+    function changeSlide(n) {
+      slideIndex += n;
+      if (slideIndex >= slides.length) slideIndex = 0;
+      if (slideIndex < 0) slideIndex = slides.length - 1;
+      showSlide(slideIndex);
+    }
+
+    function autoSlide() {
+      changeSlide(1);
+    }
+
+    function startAutoSlide() {
+      autoSlideInterval = setInterval(autoSlide, 5000);
+    }
+
+    function stopAutoSlide() {
+      clearInterval(autoSlideInterval);
+    }
+
+    window.onload = () => {
+      showSlide(slideIndex);
+      startAutoSlide();
+    };
+  </script>
+</body>
+</html>
